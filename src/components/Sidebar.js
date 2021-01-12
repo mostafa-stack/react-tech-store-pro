@@ -56,7 +56,6 @@ li:hover a{
 }
 .nav-link{
     color:var(--mainBlack);
-    font-weight:bold;
     text-transform:capitalize;
     font-size:1.1rem;
     transition:var(--mainTransition);

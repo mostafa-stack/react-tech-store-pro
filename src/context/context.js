@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import {navLinks} from './navLinks'
+import {SocialIcons} from './socialIcons'
+import {items} from './productData'
 const ProductContext = React.createContext()
 class ProductProvider extends Component {
     state = {
@@ -7,7 +9,35 @@ class ProductProvider extends Component {
         cartOpen:false,
         cartItems : 0,
         links :navLinks,
-    }
+        socialIcons:SocialIcons,
+        storeProducts:[],
+        featuredProducts:[],
+        loading:true,
+    };
+
+//did mount
+componentDidMount(){
+    this.setProducts(items)
+}
+//set products
+setProducts(products){
+    const storeProducts = products.map(item=>{
+        let product= {
+            ...item.sys,
+            ...item.fields,
+            image:item.fields.image.fields.file.url,
+        }
+        return product
+    })
+    const featuredProducts = storeProducts.filter(item=>item.featured===true)
+    console.log(featuredProducts);
+    this.setState({
+        storeProducts,
+        featuredProducts,
+        loading:false,
+    })
+}
+
     handleSidebar =()=>{
         this.setState({
             sidebarOpen:!this.state.sidebarOpen
