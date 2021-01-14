@@ -1,12 +1,13 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FaSearch, FaCartPlus } from "react-icons/fa";
+import {Link } from 'react-router-dom'
 export default function Product(props) {
-    const {image , price ,title } = props.item
+    const {image , price ,title , id } = props.item
     return (
         <ProductWrapper >
             <div className="layer">
-                <div className="product-link"><FaSearch /></div>
+                <Link to ={'/products/'+id} className="product-link"><FaSearch /></Link>
                 <div className="product-link"><FaCartPlus /></div>
             </div>
             <img src={image} alt={title}/>
@@ -23,8 +24,9 @@ width:80%;
 margin:1rem;
 border:1px solid #b3b3b3;
 border-radius:3px;
-box-shadow: 5px 5px 5px var(--darkGrey);
+box-shadow: 5px 5px 5px rgba(0,0,0,.3);
 overflow:hidden;
+    transition:var(--mainTransition);
 
 img{
     width:100%;
@@ -34,6 +36,9 @@ img{
 }
 :hover img{
     transform:scale(.8)
+}
+:hover{
+    box-shadow: 7px 8px 5px rgba(0,0,0,.6);
 }
 .product-info{
     padding:1.5rem .5rem;  

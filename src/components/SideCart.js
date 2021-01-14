@@ -23,7 +23,7 @@ position:fixed;
 right:0;
 top:60.88px;
 height:100%;
-z-index:1;
+z-index:999;
 background-color:var(--mainGrey);
 transition:var(--mainTransition);
 transform:${props=>props.show?'translateX(0)':'translateX(100%)'};

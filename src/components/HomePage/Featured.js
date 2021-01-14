@@ -3,6 +3,7 @@ import Title from '../Title'
 import {ProductConsumer} from '../../context'
 import styled from 'styled-components'
 import Product from '../Product'
+import {Link} from 'react-router-dom'
 export default function featured() {
     return (
         <ProductConsumer>
@@ -18,9 +19,11 @@ export default function featured() {
                                 featuredProducts.map(item=> <Product item={item} key={item.id} />) 
                                 : null
                                 }
+                                
                             </div>
-                            
-                            
+                            <div className="text-center">
+                            <Link to='/products' className='main-link '>our products</Link>
+                            </div>  
                         </FeaturedWrapper>
                     )
                 }
