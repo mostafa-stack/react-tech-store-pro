@@ -28,12 +28,13 @@ body {
 .main-link{
     color:var(--mainWhite);
     background-color:var(--primaryColor);
-    padding:.5rem 1.5rem;
     outline: var(--primaryColor) solid 2px;
     outline-offset:4px;
     letter-spacing:var(--mainSpacing);
     text-transform:uppercase;
     text-decoration:none;
+    text-align: center;
+    padding:.5rem 1.5rem ;
     transition:var(--mainTransition);
     display: inline-block;
     border: none;

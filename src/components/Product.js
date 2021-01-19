@@ -2,20 +2,28 @@ import React from 'react'
 import styled from 'styled-components'
 import { FaSearch, FaCartPlus } from "react-icons/fa";
 import {Link } from 'react-router-dom'
+import {ProductConsumer} from '../context'
 export default function Product(props) {
     const {image , price ,title , id } = props.item
     return (
-        <ProductWrapper >
+        <ProductConsumer>{
+            value=>{
+                const {addToCart , setSingleProduct} = value;
+                return (<ProductWrapper>
+
             <div className="layer">
-                <Link to ={'/products/'+id} className="product-link"><FaSearch /></Link>
-                <div className="product-link"><FaCartPlus /></div>
+                <Link to ={'/products/'+id} className="product-link" onClick={()=>setSingleProduct(id)}><FaSearch /></Link>
+                <div className="product-link"><FaCartPlus onClick={()=>addToCart(id)} /></div>
             </div>
             <img src={image} alt={title}/>
             <div className="product-info">
                 <span className='title'>{title}</span>
                 <span className='price'>${price}</span>
             </div>
-        </ProductWrapper>
+        </ProductWrapper>)
+            }
+            }
+        </ProductConsumer>
     )
 }
 const ProductWrapper=styled.div`
