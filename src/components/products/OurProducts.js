@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import Title  from '../Title'
 import {ProductConsumer} from '../../context'
 import Product from '../Product'
+import ProductsFiltering from './ProductsFiltering'
 export default function OurProducts() {
     return (
         <OurProductsWrapper className='my-5'>
@@ -10,16 +11,33 @@ export default function OurProducts() {
             <ProductConsumer>
                 {
                     value=>{
-                        const{storeProducts ,loading} = value;
-            return(
+                        const{filteredProducts,
+                                loading,
+                                handleChange,
+                                min,
+                                max,
+                                price,
+                                storeProducts,
+                        }= value;
+            return(<>
+            <ProductsFiltering handleChange={handleChange}  
+                                storeProducts = {storeProducts}
+                                min={min}
+                                max={max}
+                                price={price}
+            />
             <div className="our-products my-5">
                 {loading===false ?
-                storeProducts.map(item=> <Product item={item} key={item.id} />)
+                filteredProducts.length>0 ?
+                filteredProducts.map(item=> <Product item={item} 
+                    key={item.id} 
+                    />):
+                    <h3 className="text-title">sorry ... no products match</h3>
                 :
-                null
+                <h3 className="text-title">loading...</h3>
                 }
             </div>
-            )
+            </>)
         }
                 }
             </ProductConsumer>

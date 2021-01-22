@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import {navLinks} from './navLinks'
 import {SocialIcons} from './socialIcons'
-import {items} from './productData'
+/* import {items} from './productData' */
+import {client}  from './contentful'
 const ProductContext = React.createContext()
 class ProductProvider extends Component {
     state = {
@@ -12,17 +13,31 @@ class ProductProvider extends Component {
         socialIcons:SocialIcons,
         storeProducts:[],
         featuredProducts:[],
+        filteredProducts:[],
         loading:true,
         cartProducts:[],
         subTotal:0,
         tax:0,
         totals:0,
         singleProduct:{},
+        price:0,
+        min:0,
+        max:0,
+        freeShipping:false,
+        title:'',
+        company:'all',
     };
 
 //did mount
 componentDidMount(){
-    this.setProducts(items)
+/*     this.setProducts(items) */
+
+client.getEntries({
+  content_type: 'techStoreProducts'
+})
+.then((response) => this.setProducts(response.items))
+.catch(console.error)
+
 }
 //set products
 setProducts(products){
@@ -35,12 +50,18 @@ setProducts(products){
         return product
     })
     const featuredProducts = storeProducts.filter(item=>item.featured===true)
+    const max = Math.max(...storeProducts.map(item=>parseFloat(item.price)))
+    const min = Math.min(...storeProducts.map(item=>parseFloat(item.price)))
     this.setState({
         storeProducts,
         featuredProducts,
+        filteredProducts:storeProducts,
         loading:false,
         cartProducts:this.getStorageProducts(),
         singleProduct:this.getSingleProduct(),
+        max,
+        min,
+        price:max,
     } , ()=>{
         this.addTotals();
         
@@ -75,8 +96,8 @@ setProducts(products){
             cartItems += item.count;
         })
         subTotal = parseFloat(subTotal.toFixed(2))
-        let tax = .2 * subTotal ;
-        let totals = subTotal + tax ; 
+        let tax = parseFloat((.2 * subTotal).toFixed(2)) ;
+        let totals = parseFloat(subTotal + tax ); 
         return {
             subTotal , 
             tax , 
@@ -199,6 +220,53 @@ setProducts(products){
             this.synStorage();
         })
     }
+    /* filter products */
+    handleChange = (event)=>{
+        let target = event.target
+        let value = target.value;
+        let name = event.target.name;
+        this.setState({
+            [name]: value
+        } , ()=>
+        this.filterProducts()
+        )
+    }
+    filterProducts = ()=>{
+        let titledProducts
+        if(this.state.title ===''){
+            titledProducts = this.state.storeProducts
+        }else{
+            titledProducts = this.state.storeProducts.filter(item=>item.title.search(this.state.title)>-1)
+        }
+        /* price */
+        let rangedProducts = this.state.storeProducts.filter(item=> item.price<= this.state.price)
+        /* company */
+        let companyProducts
+        if (this.state.company === 'all') {
+            companyProducts = this.state.storeProducts
+        } else {
+        companyProducts = this.state.storeProducts.filter(item=> item.company=== this.state.company)
+        }
+        // freeShipping
+        
+        console.log(companyProducts);
+        let sortedProducts = titledProducts.filter(item=>{
+            if (
+                    rangedProducts.includes(item) &&
+                    companyProducts.includes(item) 
+            ) {
+                return item
+            } else {
+                return false
+            }
+        } )
+        
+        
+        
+        this.setState({
+            filteredProducts:[...sortedProducts],
+        })
+    }
     render() {
         return (
             <ProductContext.Provider value={{
@@ -212,7 +280,7 @@ setProducts(products){
                 decrementProduct:this.decrementProduct,
                 removeProduct:this.removeProduct,
                 clearCart:this.clearCart,
-                
+                handleChange:this.handleChange,
             }}>
                 {this.props.children}
             </ProductContext.Provider>

@@ -7,7 +7,7 @@ export default function ContactUs() {
                 <Title text='contact us' />
                 <form action="https://formspree.io/f/xjvpjpyw" method="POST" className='my-5'>
                     <div className="form-group">
-                        <input 
+                        <input required
                         type="text" 
                         className="form-control"
                         name='first name'
@@ -15,7 +15,7 @@ export default function ContactUs() {
                         />
                     </div>
                     <div className="form-group">
-                        <input 
+                        <input required
                         type="text" 
                         className="form-control"
                         name='last name'
@@ -23,7 +23,7 @@ export default function ContactUs() {
                         />
                     </div>
                     <div className="form-group">
-                        <input 
+                        <input required
                         type="email" 
                         className="form-control"
                         name='email'
@@ -31,7 +31,7 @@ export default function ContactUs() {
                         />
                     </div>
                     <div className="form-group">
-                        <input 
+                        <input required
                         type="text" 
                         className="form-control"
                         name='subject'
