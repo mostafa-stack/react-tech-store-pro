@@ -7,7 +7,7 @@ const {image , title ,price , count , total , id} = props.item
     return (
         <CartItemWrapper>
             <div className="img">
-                <img src={`../${image}`} alt={title}/>
+                <img src={image} alt={title}/>
             </div>
             <div className="product-desc pt-2">
                 <p>product : {title}</p>
