@@ -4,7 +4,7 @@ export default function CartProducts(props) {
     const {image , title ,count} = props.item
     return (
         <CartProductsWrapper>
-            <img src={`../${image}`} alt={title} className='img-logo'/>
+            <img src={image} alt={title} className='img-logo'/>
             <p className='text-capitalize'>{title}</p>
             <div className="product-amount">
                 <span>amount : </span>

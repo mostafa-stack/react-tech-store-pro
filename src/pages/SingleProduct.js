@@ -15,7 +15,7 @@ export default function SingleProduct() {
                     return <div className="container ">
                         <SingleProductWrapper>
                             <div className="product-img">
-                            <img src={`../${image}`} alt={title}/>
+                            <img src={image} alt={title}/>
                             </div>
                             <div className="some-info " >
                                 <div className='text-capitalize text-title model'>

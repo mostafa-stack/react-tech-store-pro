@@ -3,7 +3,9 @@ import Title from '../Title'
 import {ProductConsumer } from '../../context'
 import CartItem from './CartItem'
 import styled from 'styled-components'
-export default function CartPage() {
+import PaypalButton from './PaypalBtn'
+export default function CartPage(props) {
+    const {history} = props
     return (
         <section className='p-5'>
             <Title center='true' text='your cart items' />
@@ -37,7 +39,11 @@ export default function CartPage() {
                                     onClick={clearCart}>clear cart</button>
                                     <h3>subtotal : ${subTotal} </h3>
                                     <h3>tax : ${tax} </h3>
-                                    <h3>total : ${totals} </h3>
+                                    <h3 className='mb-3'>total : ${totals} </h3>
+                                    <PaypalButton history={history}
+                                    totals={totals}
+                                    clearCart={clearCart}
+                                    />
                                 </div>
                             </>
                 }}
